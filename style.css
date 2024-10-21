@@ -1,0 +1,205 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #24283e;
+    color: #92a0d9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar, .footer, .skills-container, .projects-container, .contact-container {
+    background-color: #24283e;
+    color: #92a0d9;
+}
+
+.navbar a, .footer a, .skill-text, .project-text, .contact-text, .navigation-arrows .btn, .btn--outline {
+    color: #92a0d9;
+}
+
+.navbar .nav-link.active {
+    color: #ffcc00;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.index-page .about, .about-page .about {
+    text-align: center;
+    padding: 50px 0;
+    margin: 0 10%;
+    flex: 1;
+}
+
+.index-page .about__name, .about-page .about__name {
+    color: #007bff;
+    font-weight: bold;
+    font-size: 3rem;
+    margin-bottom: 40px;
+}
+
+.index-page .about__desc {
+    font-size: 1.25rem;
+    margin-top: 80px;
+    margin-bottom: 50px;
+    text-align: justify;
+}
+
+.index-page .about__contact .btn {
+    margin-right: 10px;
+    font-size: 2rem;
+}
+
+.about-page .about__image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.about-page .about__role {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.about-page .about__desc {
+    font-size: 1.1rem;
+    text-align: justify;
+}
+
+.skills-container, .projects-container, .contact-container {
+    background-color: #24283e;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.skill-item {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.skill-circle {
+    width: 100%;
+    height: 100%;
+}
+
+.skill-circle circle {
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transform: translate(5px, 5px);
+}
+
+.skill-circle .bg {
+    stroke: rgba(0, 0, 0, 0.1);
+}
+
+.skill-circle .progress {
+    stroke: currentColor;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+}
+
+.skill-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: currentColor;
+}
+
+.skill-percent {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.skill-name {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.project-item {
+    margin-bottom: 30px;
+}
+
+.project-thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.project-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.project-description {
+    font-size: 1rem;
+    margin-top: 5px;
+    text-align: justify;
+}
+
+.github-link {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.github-link a {
+    color: currentColor;
+    font-size: 2rem;
+}
+
+.social-links {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.social-links a {
+    color: currentColor;
+    font-size: 2rem;
+    margin: 0 10px;
+}
+
+.navigation-arrows {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+.navigation-arrows .btn {
+    font-size: 3rem;
+    color: currentColor;
+}
+
+.footer {
+    padding: 1rem 0;
+    margin-top: auto;
+}
+
+@media (min-width: 992px) {
+    .index-page .about, .about-page .about {
+        margin: 0 20%;
+    }
+    
+    .index-page .about__contact .btn {
+        font-size: 3rem;
+        margin-top: 50px;
+    }
+    
+    .skills-container, .projects-container, .contact-container {
+        margin: 0;
+    }
+    
+    .navigation-arrows {
+        padding: 0 40px;
+    }
+}
+.skill-level {
+    font-size: 0.6rem; 
+}
