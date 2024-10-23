@@ -1,27 +1,77 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #24283e;
-    color: #92a0d9;
+    background-color: #fcfcfc;
+    color: black;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.navbar, .footer, .skills-container, .projects-container, .contact-container {
+body.fade-in {
+    opacity: 1;
+}
+
+.dark-mode {
     background-color: #24283e;
     color: #92a0d9;
 }
 
-.navbar a, .footer a, .skill-text, .project-text, .contact-text, .navigation-arrows .btn, .btn--outline {
+.dark-mode .navbar, .dark-mode .footer, .dark-mode .skills-container, .dark-mode .projects-container, .dark-mode .contact-container {
+    background-color: #24283e;
     color: #92a0d9;
 }
 
-.navbar .nav-link.active {
+.dark-mode .navbar a, .dark-mode .footer a, .dark-mode .skill-text, .dark-mode .project-text, .dark-mode .contact-text, .dark-mode .navigation-arrows .btn, .dark-mode .btn--outline {
+    color: #92a0d9;
+}
+
+.dark-mode .navbar .nav-link.active {
     color: #ffcc00;
 }
 
-.navbar-toggler-icon {
+.dark-mode .navbar-toggler-icon {
     filter: invert(1);
+}
+
+.navbar, .footer {
+    background-color: #fcfcfc;
+    color: black;
+}
+
+.navbar a, .footer a {
+    color: black;
+    position: relative;
+    text-decoration: none;
+}
+
+.navbar .nav-link.active {
+    color: #007bff;
+}
+
+.navbar a::after, .footer a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    right: 0;
+    background: currentColor;
+    transition: width 0.6s ease;
+    -webkit-transition: width 0.6s ease;
+}
+
+.navbar a:hover::after, .footer a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.navbar a:not(:hover)::after, .footer a:not(:hover)::after {
+    width: 0;
+    left: auto;
+    right: 0;
 }
 
 .index-page .about, .about-page .about {
@@ -53,7 +103,9 @@ body {
 .about-page .about__image {
     max-width: 100%;
     height: auto;
-    border-radius: 50%;
+    border-radius: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .about-page .about__role {
@@ -67,7 +119,7 @@ body {
 }
 
 .skills-container, .projects-container, .contact-container {
-    background-color: #24283e;
+    background-color: #fcfcfc;
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -100,6 +152,7 @@ body {
     stroke: currentColor;
     stroke-dasharray: 440;
     stroke-dashoffset: 440;
+    transition: stroke-dashoffset 1s ease-out;
 }
 
 .skill-text {
@@ -175,6 +228,17 @@ body {
 .navigation-arrows .btn {
     font-size: 3rem;
     color: currentColor;
+}
+
+.animated {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.animated.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .footer {

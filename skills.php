@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -16,23 +17,23 @@ $username = "root";
 $password = "";
 $dbname = "portfolio";
 
-// Create connection
+// buat koneksi db
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// Cek koneksi
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch navbar data
+// ambil data navbar
 $sql = "SELECT menu, url FROM menu";
 $result = $conn->query($sql);
 
-// Fetch skills section data
+// ambil data skills
 $skills_sql = "SELECT skill_name, skill_percent FROM skills";
 $skills_result = $conn->query($skills_sql);
 
-// Fetch skills metadata
+
 $metadata_sql = "SELECT title, backward_link, forward_link FROM skills_metadata WHERE id = 1";
 $metadata_result = $conn->query($metadata_sql);
 $metadata = $metadata_result->fetch_assoc();
@@ -69,6 +70,10 @@ if ($result) {
                 $conn->close();
                 ?>
             </ul>
+            <div class="form-check form-switch ms-3">
+                <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+                <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+            </div>
         </div>
     </div>
 </nav>
@@ -80,7 +85,6 @@ if ($result) {
 ?>
 
 <!-- Skills Section -->
-<!-- Skills Section -->
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -90,26 +94,25 @@ if ($result) {
                     <?php
                     if ($skills_result->num_rows > 0) {
                         while($row = $skills_result->fetch_assoc()) {
-                            $percent = $row["skill_percent"];
-                            $dashoffset = 440 - (440 * $percent / 100);
+                            $skill_percent = $row["skill_percent"];
                             $skill_level = '';
 
-                            if ($percent <= 60) {
+                            if ($skill_percent < 65) {
                                 $skill_level = 'Basic';
-                            } elseif ($percent < 85) {
+                            } elseif ($skill_percent <= 85) {
                                 $skill_level = 'Intermediate';
                             } else {
-                                $skill_level = 'Advance';
+                                $skill_level = 'Advanced';
                             }
 
                             echo '<div class="col-6 col-sm-6 col-md-4 mb-4">';
-                            echo '<div class="skill-item mx-auto">';
+                            echo '<div class="skill-item mx-auto animated" data-skill="' . $row["skill_name"] . '" data-percent="' . $skill_percent . '">';
                             echo '<svg class="skill-circle">';
                             echo '<circle class="bg" cx="70" cy="70" r="70"></circle>';
-                            echo '<circle class="progress" cx="70" cy="70" r="70" style="stroke-dashoffset: ' . $dashoffset . ';"></circle>';
+                            echo '<circle class="progress" cx="70" cy="70" r="70"></circle>';
                             echo '</svg>';
                             echo '<div class="skill-text">';
-                            echo '<div class="skill-percent">' . $percent . '%</div>';
+                            echo '<div class="skill-percent">0%</div>';
                             echo '<div class="skill-name">' . $row["skill_name"] . '</div>';
                             echo '<div class="skill-level">' . $skill_level . '</div>';
                             echo '</div>';
@@ -142,8 +145,67 @@ if ($result) {
         <span>© 2024 Ellbendls.</span>
     </div>
 </footer>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const skills = document.querySelectorAll('.skill-item');
+    const animateSkill = (skill) => {
+        const circle = skill.querySelector('.progress');
+        const percent = skill.dataset.percent;
+        const percentText = skill.querySelector('.skill-percent');
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        const offset = circumference - (percent / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+        let count = 0;
+        const timer = setInterval(() => {
+            if (count >= percent) {
+                clearInterval(timer);
+            } else {
+                count++;
+                percentText.textContent = count + '%';
+            }
+        }, 15);
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                animateSkill(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    skills.forEach(skill => observer.observe(skill));
+});
+
+document.getElementById('darkModeSwitch').addEventListener('change', function() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeSwitch').checked = true;
+    }
+});
+
+// efek transisi halus
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('fade-in');
+});
+
+document.querySelectorAll('a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        document.body.classList.remove('fade-in');
+        setTimeout(() => {
+            window.location.href = href;
+        }, 500);
+    });
+});
+</script>
 </body>
 </html>

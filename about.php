@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -16,19 +17,19 @@ $username = "root";
 $password = "";
 $dbname = "portfolio";
 
-// Create connection
+// Bikin koneksi db
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// Cek koneksi
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch navbar data
+// Ambil data menu
 $sql = "SELECT menu, url FROM menu";
 $result = $conn->query($sql);
 
-// Fetch about section data
+// ambil data about
 $about_sql = "SELECT name, role, description, image_url, backward_link, forward_link FROM about WHERE id = 1";
 $about_result = $conn->query($about_sql);
 $about_data = $about_result->fetch_assoc();
@@ -65,6 +66,10 @@ if ($result) {
                 $conn->close();
                 ?>
             </ul>
+            <div class="form-check form-switch ms-3">
+                <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+                <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+            </div>
         </div>
     </div>
 </nav>
@@ -78,10 +83,10 @@ if ($result) {
 <!-- About Section -->
 <div class="about">
     <div class="row">
-        <div class="col-lg-4 text-center">
+        <div class="col-lg-3 text-center">
             <img src="<?php echo $about_data['image_url']; ?>" alt="Profile Picture" class="about__image">
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <h1 class="about__name"><?php echo $about_data['name']; ?></h1>
             <h2 class="about__role"><?php echo $about_data['role']; ?></h2>
             <p class="about__desc">
@@ -105,8 +110,37 @@ if ($result) {
         <span>© 2024 Ellbendls.</span>
     </div>
 </footer>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+document.getElementById('darkModeSwitch').addEventListener('change', function() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('darkMode') !== 'false') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeSwitch').checked = true;
+    } else {
+        document.getElementById('darkModeSwitch').checked = false;
+    }
+});
+
+// efek transisi halus
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('fade-in');
+});
+
+document.querySelectorAll('a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        document.body.classList.remove('fade-in');
+        setTimeout(() => {
+            window.location.href = href;
+        }, 500);
+    });
+});
+</script>
 </body>
 </html>
